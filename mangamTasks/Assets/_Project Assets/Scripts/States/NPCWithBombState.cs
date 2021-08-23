@@ -6,6 +6,7 @@ public class NPCWithBombState : INPState
 {
     public INPState DoState(NPC_BaseClass npc)
     {
+        GetNearestTarget(npc);
         return change(npc);
     }
 
@@ -16,5 +17,21 @@ public class NPCWithBombState : INPState
         else
             return this;
 
+    }
+
+    void GetNearestTarget(NPC_BaseClass npc)
+    {
+        float minDistance = float.MaxValue;
+        float x;
+        for (int i = 0; i < AllPlayers.players.Count; i++)
+        {
+            if ( npc.gameObject == AllPlayers.players[i].gameObject) continue;
+
+            if ((x = Vector3.SqrMagnitude(AllPlayers.players[i].transform.position - npc.transform.position)) < minDistance)
+            {
+                minDistance = x;
+                npc.Target = AllPlayers.players[i].transform.position;
+            }
+        }
     }
 }

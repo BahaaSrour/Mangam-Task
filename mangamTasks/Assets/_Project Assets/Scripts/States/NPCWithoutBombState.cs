@@ -22,7 +22,7 @@ public class NPCWithoutBombState : INPState
     }
     void ChangeNewTarget(NPC_BaseClass npc)
     {
-        if (Vector3.SqrMagnitude(npc.Target - npc.transform.position)>2 && npc.navMeshAgent.hasPath)
+        if (Vector3.SqrMagnitude(npc.Target - npc.transform.position)>4 && npc.navMeshAgent.hasPath)
             return  ;
 
         Vector3 newpos =  NPC_BaseClass.RandomNavSphere( npc.BombSOposition.SOTrans_Value.position , npc.MaximumPointNPCmovesTo,1);

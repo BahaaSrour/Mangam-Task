@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class AllPlayers : MonoBehaviour
 {
-    public static GameObject[] players;
-    void Start()
+    public static List<GameObject> players;
+    private void Awake()
     {
-        if (players == null)
-            players = GameObject.FindGameObjectsWithTag("Player");
-
-        for (int i = 0; i < players.Length; i++)
-        {
-            Debug.Log(players[i].name);
-        }
-    }
-
+        players = new List<GameObject>(); 
+    } 
     
 }

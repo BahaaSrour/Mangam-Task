@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(Rigidbody))]
+
 [RequireComponent(typeof(PlayerHasBomb))]
 public class NPC_BaseClass : MonoBehaviour
 {
@@ -51,6 +51,8 @@ public class NPC_BaseClass : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
         Gizmos.DrawCube(Target, new Vector3(.5f, .5f, .5f));
+        Gizmos.DrawLine(transform.position,Target) ;
     }
 }
