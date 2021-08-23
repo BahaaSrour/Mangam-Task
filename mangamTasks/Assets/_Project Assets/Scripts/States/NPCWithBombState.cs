@@ -11,7 +11,7 @@ public class NPCWithBombState : INPState
 
     private INPState change(NPC_BaseClass npc)
     {
-        if (npc.clicked == true)
+        if (!(npc.GetComponent<PlayerHasBomb>().HasBomb))
             return npc.nPCWithoutBombState;
         else
             return this;

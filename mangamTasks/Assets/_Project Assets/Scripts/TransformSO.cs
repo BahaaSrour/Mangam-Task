@@ -6,4 +6,6 @@ using UnityEngine;
 public class TransformSO : ScriptableObject
 {
     public Transform SOTrans_Value;
+
+
 }

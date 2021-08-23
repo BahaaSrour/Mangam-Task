@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerHasBomb))]
 public class NPC_BaseClass : MonoBehaviour
 {
     public bool clicked = false;
@@ -18,21 +19,21 @@ public class NPC_BaseClass : MonoBehaviour
 
     public float MaximumPointNPCmovesTo;
     public LayerMask LayerMask;
+    public Transform _bombTest;
     void Start()
     {
-        BombSOposition.SOTrans_Value= transform;
-        Currentstate = nPCWithBombState;
+        BombSOposition.SOTrans_Value= _bombTest;
+        Currentstate = nPCWithoutBombState;
         navMeshAgent = GetComponent<NavMeshAgent>();
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(Currentstate.ToString());
         Currentstate = Currentstate.DoState(this);
         //Debug.Log("Target ")
         navMeshAgent.SetDestination(Target);
-        Debug.Log(Currentstate.ToString());
     }
 
     public static Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
@@ -46,5 +47,10 @@ public class NPC_BaseClass : MonoBehaviour
         NavMesh.SamplePosition(randomDirection, out navHit, distance, layermask);
 
         return navHit.position;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(Target, new Vector3(.5f, .5f, .5f));
     }
 }
