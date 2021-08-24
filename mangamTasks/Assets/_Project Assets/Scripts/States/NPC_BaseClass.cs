@@ -34,7 +34,7 @@ public class NPC_BaseClass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Currentstate.ToString());
+        //Debug.Log(Currentstate.ToString());
         Currentstate = Currentstate.DoState(this);
         //Debug.Log("Target ")
         navMeshAgent.SetDestination(Target);

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ScriptableEvent : MonoBehaviour
+[CreateAssetMenu(menuName ="SOEvent/Action")]
+public class ScriptableEvent : ScriptableObject
 {
     public UnityAction action;
 
