@@ -20,11 +20,15 @@ public class NPC_BaseClass : MonoBehaviour
     public float MaximumPointNPCmovesTo;
     public LayerMask LayerMask;
     public Transform _bombTest;
+
+
+    Rigidbody rb;
     void Start()
     {
         BombSOposition.SOTrans_Value= _bombTest;
         Currentstate = nPCWithoutBombState;
         navMeshAgent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -34,6 +38,7 @@ public class NPC_BaseClass : MonoBehaviour
         Currentstate = Currentstate.DoState(this);
         //Debug.Log("Target ")
         navMeshAgent.SetDestination(Target);
+        rb.velocity = Vector3.zero;
     }
 
     public static Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
