@@ -218,6 +218,7 @@ MonoBehaviour:
   HasBomb: 0
   inCoolDown: 0
   BombPrefab: {fileID: 1854452869178599099}
+  newBomberMan: {fileID: 11400000, guid: b3a53612856712c48ba5a144651e5769, type: 2}
 --- !u!1 &2093399871373355189
 GameObject:
   m_ObjectHideFlags: 0

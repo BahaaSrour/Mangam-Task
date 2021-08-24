@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-[CreateAssetMenu(menuName ="")]
+[CreateAssetMenu(menuName = "SOEvent/Action(int)")]
 public class ScriptableEventWithintSO : ScriptableObject
 {
     public UnityAction<int> action;

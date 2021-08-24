@@ -6,10 +6,13 @@ public class AllPlayers : MonoBehaviour
 {
     public ScriptableEvent newBomberMan;
     public static List<GameObject> players;
+
+    public ScriptableEventWithintSO newBomberManChanged;
     private void Awake()
     {
         players = new List<GameObject>();
         newBomberMan.action += PickNewPlayerToCarryTheBomb;
+       // newBomberManChanged += AttachBombToPlayer(0);
     }
 
     private void Start()
@@ -39,7 +42,7 @@ public class AllPlayers : MonoBehaviour
     }
 
 
-    public void AttachBombToPlayer(int val)
+    public static void AttachBombToPlayer(int val)
     {
         for (int i = 0; i < players.Count; i++)
         {
