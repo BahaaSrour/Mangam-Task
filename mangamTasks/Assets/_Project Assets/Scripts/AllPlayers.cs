@@ -10,7 +10,8 @@ public class AllPlayers : MonoBehaviour
     public float bombTimer;
     public GameObject Blocker;
 
-
+    public AudioClip BombSound;
+    public AudioSource audioSource;
     float timer;
     [HideInInspector]
     public float currentBombTimer;
@@ -30,10 +31,9 @@ public class AllPlayers : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
             newBomberMan.action.Invoke();
-        timer = currentBombTimer - Time.time;
-        //Debug.Log("Current Bomb " + currentBombTimer);
-        //Debug.Log("Timer " + timer);
+        timer = currentBombTimer - Time.time; 
 
+      //  if(timer<7f) audioSource.pl
         if (timer <= 0)
         { 
             KillThePlayer();
