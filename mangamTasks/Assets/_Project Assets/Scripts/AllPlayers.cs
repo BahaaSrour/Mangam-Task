@@ -11,7 +11,8 @@ public class AllPlayers : MonoBehaviour
     public GameObject Blocker;
 
     public AudioClip BombSound;
-    public AudioSource audioSource;
+    public float BombClibDuration;
+     AudioSource audioSource;
     float timer;
     [HideInInspector]
     public float currentBombTimer;
@@ -20,6 +21,7 @@ public class AllPlayers : MonoBehaviour
         players = new List<GameObject>();
         newBomberMan.action += PickNewPlayerToCarryTheBomb;
         // newBomberManChanged += AttachBombToPlayer(0);
+        audioSource = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -31,9 +33,10 @@ public class AllPlayers : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
             newBomberMan.action.Invoke();
-        timer = currentBombTimer - Time.time; 
+        timer = currentBombTimer - Time.time;
 
-      //  if(timer<7f) audioSource.pl
+        if (timer < BombClibDuration && audioSource.isPlaying==false) 
+            audioSource.PlayOneShot(BombSound);
         if (timer <= 0)
         { 
             KillThePlayer();
@@ -84,22 +87,19 @@ public class AllPlayers : MonoBehaviour
             {
                 if (players[i].GetComponent<PlayerHasBomb>().HasBomb == true)
                 {
-                    //players.Remove(players[i]);
+                    players.Remove(players[i]);
+                    players[i].GetComponent<PlayerHasBomb>().HasBomb=false;
                     players[i].SetActive(false);
                     if (players[i].tag == "MainPlayer") Blocker.SetActive(true);
                     Debug.Log("the removed player " + players[i].name);
                 };
             }
-        }
-
-        Debug.Log("##neumber of Players after removeing" + players.Count);
-
+        } 
         for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log(players[i].name);
-        }
-
-
-
+             Debug.Log(players[i].name);
+            players[i].GetComponent<PlayerHasBomb>().HasBomb = false;
+        } 
     }
+
 }
