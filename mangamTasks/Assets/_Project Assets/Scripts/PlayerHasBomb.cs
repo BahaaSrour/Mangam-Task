@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHasBomb : MonoBehaviour
 {
     public bool HasBomb;
-    public bool inCoolDown=false;
+    public bool inCoolDown = false;
 
     private void Start()
     {
@@ -13,30 +13,44 @@ public class PlayerHasBomb : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        
-        if (collision.collider.GetComponent<PlayerHasBomb>() != null&& collision.collider.GetComponent<PlayerHasBomb>().inCoolDown ==false&&HasBomb )
+
+        if (collision.collider.GetComponent<PlayerHasBomb>() != null && collision.collider.GetComponent<PlayerHasBomb>().inCoolDown == false && HasBomb)
         {
-            collision.collider.GetComponent<PlayerHasBomb>() . HasBomb = true; 
-            StartCoroutine(EnterCooldown(3 , collision.collider.gameObject));
+            collision.collider.GetComponent<PlayerHasBomb>().HasBomb = true;
+            StartCoroutine(EnterCooldown(3, collision.collider.gameObject));
             HasBomb = false;
         }
     }
 
-    IEnumerator EnterCooldown(float CooldownTime,GameObject newBomberman )
+    IEnumerator EnterCooldown(float CooldownTime, GameObject newBomberman)
     {
-        float speed=0;
+        float speed = 0;
         inCoolDown = true;
+        //Stop NPC Movement
         if (newBomberman.GetComponent<NPC_BaseClass>() != null)
         {
             speed = newBomberman.GetComponent<NPC_BaseClass>().navMeshAgent.speed;
-            newBomberman.GetComponent<NPC_BaseClass>().navMeshAgent.speed=0;
+            newBomberman.GetComponent<NPC_BaseClass>().navMeshAgent.speed = 0;
         }
-        
-        yield return new WaitForSeconds(CooldownTime); 
+
+        //Stop player Movement
+        else if (newBomberman.GetComponent<PlayerMovements>() != null)
+        {
+            speed = newBomberman.GetComponent<PlayerMovements>().speed;
+            newBomberman.GetComponent<PlayerMovements>().speed = 0;
+        }
+
+        yield return new WaitForSeconds(CooldownTime);
         inCoolDown = false;
+       
+        //Start NPC Moving
         if (newBomberman.GetComponent<NPC_BaseClass>() != null)
             newBomberman.GetComponent<NPC_BaseClass>().navMeshAgent.speed = speed;
+       
+        //Start Player Moving
+        else if (newBomberman.GetComponent<PlayerMovements>() != null)
+            newBomberman.GetComponent<PlayerMovements>().speed = speed;
 
-    } 
+    }
 
 }
