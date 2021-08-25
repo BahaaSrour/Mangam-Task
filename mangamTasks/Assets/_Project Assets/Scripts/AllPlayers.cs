@@ -31,12 +31,16 @@ public class AllPlayers : MonoBehaviour
     }
     private void Update()
     {
+        timer = currentBombTimer - Time.time;
+        
+        //test Invoking event 
         if (Input.GetKeyDown(KeyCode.H))
             newBomberMan.action.Invoke();
-        timer = currentBombTimer - Time.time;
-
+        //play bomb sound
         if (timer < BombClibDuration && audioSource.isPlaying==false) 
             audioSource.PlayOneShot(BombSound);
+        
+        //Explode Bomb when the timer is zero
         if (timer <= 0)
         { 
             KillThePlayer();
@@ -87,7 +91,7 @@ public class AllPlayers : MonoBehaviour
             {
                 if (players[i].GetComponent<PlayerHasBomb>().HasBomb == true)
                 {
-                    players.Remove(players[i]);
+                   // players.Remove(players[i]);
                     players[i].GetComponent<PlayerHasBomb>().HasBomb=false;
                     players[i].SetActive(false);
                     if (players[i].tag == "MainPlayer") Blocker.SetActive(true);
@@ -95,11 +99,11 @@ public class AllPlayers : MonoBehaviour
                 };
             }
         } 
-        for (int i = 0; i < players.Count; i++)
-        {
-             Debug.Log(players[i].name);
-            players[i].GetComponent<PlayerHasBomb>().HasBomb = false;
-        } 
+        //for (int i = 0; i < players.Count; i++)
+        //{
+        //     Debug.Log(players[i].name);
+        //    players[i].GetComponent<PlayerHasBomb>().HasBomb = false;
+        //} 
     }
 
 }
