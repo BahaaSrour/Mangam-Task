@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AllPlayers : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class AllPlayers : MonoBehaviour
     public ScriptableEventWithintSO newBomberManChanged;
     public float bombTimer;
     public GameObject Blocker;
+    public GameObject winningPanal;
 
     public AudioClip BombSound;
     public float BombClibDuration;
@@ -134,10 +136,10 @@ public class AllPlayers : MonoBehaviour
             Debug.Log("You Have won");
 
             FinalSound.PlayOneShot(WinningSound);
+            winningPanal.SetActive(true);
         }
        // Debug.Log("number of Players is " + alivePlayer);
     }
-
     void ResetTheListOfPlayers()
     {
         List<GameObject> tmpplayers = new List<GameObject>();
@@ -152,6 +154,14 @@ public class AllPlayers : MonoBehaviour
             players.Add(tmpplayers[i]);
             Debug.Log("Players number " + i + " is " + players[i]);
         }
+
+    }
+
+
+    //for reloading the game
+    public void ReloadGame()
+    {
+        SceneManager.LoadScene(0);
 
     }
 

@@ -2048,6 +2048,7 @@ MonoBehaviour:
     type: 2}
   bombTimer: 10
   Blocker: {fileID: 2101693569}
+  winningPanal: {fileID: 722527668}
   BombSound: {fileID: 8300000, guid: 763078b94b65ebb4096f3cf02ecd6a68, type: 3}
   BombClibDuration: 4.5
   FinalSound: {fileID: 963194229}
@@ -2854,6 +2855,7 @@ MonoBehaviour:
   newBomberManChanged: {fileID: 0}
   bombTimer: 0
   Blocker: {fileID: 0}
+  winningPanal: {fileID: 0}
   BombSound: {fileID: 0}
   BombClibDuration: 0
   FinalSound: {fileID: 0}
@@ -3424,7 +3426,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1234091730}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 953008486}
+        m_MethodName: ReloadGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1234091730
 MonoBehaviour:
   m_ObjectHideFlags: 0
