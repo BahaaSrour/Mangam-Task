@@ -66,8 +66,8 @@ public class PlayerHasBomb : MonoBehaviour
         {
             if (obj == AllPlayers.players[i])
             {
-                Debug.Log("Player Name " + AllPlayers.players[i].name);
-                Debug.Log("Player Order " + i);
+                //Debug.Log("Player Name " + AllPlayers.players[i].name);
+                //Debug.Log("Player Order " + i);
                 AllPlayers.AttachBombToPlayer(i);
                 return i;
             }

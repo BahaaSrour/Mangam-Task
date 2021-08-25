@@ -6,6 +6,7 @@ public class NPCWithBombState : INPState
 {
     public INPState DoState(NPC_BaseClass npc)
     {
+        npc.BombSOposition.SOTrans_Value = npc.transform;
         GetNearestTarget(npc);
         return change(npc);
     }

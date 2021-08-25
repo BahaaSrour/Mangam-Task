@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class AllPlayers : MonoBehaviour
 {
-
+    public GameObject mainPlayer;
     public ScriptableEvent newBomberMan;
     public static List<GameObject> players;
     public ScriptableEventWithintSO newBomberManChanged;
@@ -93,8 +93,6 @@ public class AllPlayers : MonoBehaviour
     public void KillThePlayer()
     {
         Debug.Log("---------------nember of Players Alive--------------");
-        Debug.Log("nember of Players before removeing " + players.Count);
-
         for (int i = 0; i < players.Count; i++)
         {
             if (players[i].activeSelf)
@@ -102,21 +100,21 @@ public class AllPlayers : MonoBehaviour
                 if (players[i].GetComponent<PlayerHasBomb>().HasBomb == true)
                 {
                     MakeSurePlaysListNoOneHasTheBombAttached();
-                    // players.Remove(players[i]);
-
-                    //GameObject.Destroy(players[i]);
-                     
                     players[i].GetComponent<PlayerHasBomb>().HasBomb = false;
                     players[i].GetComponent<PlayerHasBomb>().Died = true;
                     players[i].SetActive(false);
-                    if (players[i].tag == "MainPlayer") Blocker.SetActive(true);
-                   // Debug.Log("the removed player " + players[i].name);
+                    players.RemoveAt(i);
+                    //if (players[i].gameObject.tag == "Untagged") Blocker.SetActive(true);
                 };
             }
-        } 
+        }
+        if (mainPlayer.activeSelf == false)
+        {
+            Blocker.SetActive(true);
+            newBomberMan.action -= PickNewPlayerToCarryTheBomb;
+        }
         CheckPlayersAlive();
     }
-
     void MakeSurePlaysListNoOneHasTheBombAttached()
     {
         for (int i = 0; i < players.Count; i++)
@@ -140,29 +138,10 @@ public class AllPlayers : MonoBehaviour
         }
        // Debug.Log("number of Players is " + alivePlayer);
     }
-    void ResetTheListOfPlayers()
-    {
-        List<GameObject> tmpplayers = new List<GameObject>();
-        for (int i = 0; i < players.Count; i++)
-        {
-            if (players[i].GetComponent<PlayerHasBomb>().Died == false)
-                tmpplayers.Add(players[i]);
-        }
-        players.Clear();
-        for (int i = 0; i < players.Count; i++)
-        {
-            players.Add(tmpplayers[i]);
-            Debug.Log("Players number " + i + " is " + players[i]);
-        }
-
-    }
-
-
     //for reloading the game
     public void ReloadGame()
     {
         SceneManager.LoadScene(0);
-
     }
 
 }
