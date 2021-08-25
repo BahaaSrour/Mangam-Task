@@ -6,6 +6,7 @@ public class PlayerHasBomb : MonoBehaviour
 {
     public bool HasBomb;
     public bool inCoolDown = false;
+    public bool Died;
     public GameObject BombPrefab;
 
     public ScriptableEventWithintSO newBomberMan;
@@ -23,7 +24,7 @@ public class PlayerHasBomb : MonoBehaviour
             collision.collider.GetComponent<PlayerHasBomb>().HasBomb = true;
             FindPlayerOrderInTheList(collision.collider.gameObject);
 
-            StartCoroutine(EnterCooldown(3, collision.collider.gameObject));
+            StartCoroutine(EnterCooldown(1, collision.collider.gameObject));
             HasBomb = false;
         }
     }

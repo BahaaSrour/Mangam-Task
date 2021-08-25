@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AllPlayers : MonoBehaviour
 {
+
     public ScriptableEvent newBomberMan;
     public static List<GameObject> players;
     public ScriptableEventWithintSO newBomberManChanged;
@@ -12,7 +13,9 @@ public class AllPlayers : MonoBehaviour
 
     public AudioClip BombSound;
     public float BombClibDuration;
-     AudioSource audioSource;
+    AudioSource audioSource;
+    public AudioSource FinalSound;
+    public AudioClip WinningSound;
     float timer;
     [HideInInspector]
     public float currentBombTimer;
@@ -26,23 +29,23 @@ public class AllPlayers : MonoBehaviour
     private void Start()
     {
         newBomberMan.action.Invoke();
-        currentBombTimer = bombTimer+Time.time;
+        currentBombTimer = bombTimer + Time.time;
 
     }
     private void Update()
     {
         timer = currentBombTimer - Time.time;
-        
+
         //test Invoking event 
         if (Input.GetKeyDown(KeyCode.H))
             newBomberMan.action.Invoke();
         //play bomb sound
-        if (timer < BombClibDuration && audioSource.isPlaying==false) 
+        if (timer < BombClibDuration && audioSource.isPlaying == false)
             audioSource.PlayOneShot(BombSound);
-        
+
         //Explode Bomb when the timer is zero
         if (timer <= 0)
-        { 
+        {
             KillThePlayer();
             newBomberMan.action.Invoke();
             currentBombTimer = bombTimer + Time.time;
@@ -52,7 +55,10 @@ public class AllPlayers : MonoBehaviour
     public void PickNewPlayerToCarryTheBomb()
     {
         int x = Random.Range(0, players.Count);
-        if (players[x].activeSelf == false) PickNewPlayerToCarryTheBomb();
+        //Debug.Log("number " + x);
+        //Debug.Log("players.Count " + players.Count);
+
+        if (players[x].activeSelf == false /*|| players[x].GetComponent<PlayerHasBomb>().Died ==false*/) PickNewPlayerToCarryTheBomb();
         for (int i = 0; i < players.Count; i++)
         {
             if (players[i].activeSelf)
@@ -62,7 +68,7 @@ public class AllPlayers : MonoBehaviour
             }
         }
         players[x].GetComponent<PlayerHasBomb>().HasBomb = true;
-        players[x].GetComponent<PlayerHasBomb>().BombPrefab.SetActive( true);
+        players[x].GetComponent<PlayerHasBomb>().BombPrefab.SetActive(true);
     }
     public static void AttachBombToPlayer(int val)
     {
@@ -84,26 +90,69 @@ public class AllPlayers : MonoBehaviour
 
     public void KillThePlayer()
     {
+        Debug.Log("---------------nember of Players Alive--------------");
         Debug.Log("nember of Players before removeing " + players.Count);
+
         for (int i = 0; i < players.Count; i++)
         {
             if (players[i].activeSelf)
             {
                 if (players[i].GetComponent<PlayerHasBomb>().HasBomb == true)
                 {
-                   // players.Remove(players[i]);
-                    players[i].GetComponent<PlayerHasBomb>().HasBomb=false;
+                    MakeSurePlaysListNoOneHasTheBombAttached();
+                    // players.Remove(players[i]);
+
+                    //GameObject.Destroy(players[i]);
+                     
+                    players[i].GetComponent<PlayerHasBomb>().HasBomb = false;
+                    players[i].GetComponent<PlayerHasBomb>().Died = true;
                     players[i].SetActive(false);
                     if (players[i].tag == "MainPlayer") Blocker.SetActive(true);
-                    Debug.Log("the removed player " + players[i].name);
+                   // Debug.Log("the removed player " + players[i].name);
                 };
             }
         } 
-        //for (int i = 0; i < players.Count; i++)
-        //{
-        //     Debug.Log(players[i].name);
-        //    players[i].GetComponent<PlayerHasBomb>().HasBomb = false;
-        //} 
+        CheckPlayersAlive();
+    }
+
+    void MakeSurePlaysListNoOneHasTheBombAttached()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].GetComponent<PlayerHasBomb>().HasBomb = false;
+        }
+    }    
+    void CheckPlayersAlive()
+    {
+        int alivePlayer=0;
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].GetComponent<PlayerHasBomb>().Died == false) alivePlayer++;
+        }
+        if (alivePlayer == 1)
+        {
+            Debug.Log("You Have won");
+
+            FinalSound.PlayOneShot(WinningSound);
+        }
+       // Debug.Log("number of Players is " + alivePlayer);
+    }
+
+    void ResetTheListOfPlayers()
+    {
+        List<GameObject> tmpplayers = new List<GameObject>();
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].GetComponent<PlayerHasBomb>().Died == false)
+                tmpplayers.Add(players[i]);
+        }
+        players.Clear();
+        for (int i = 0; i < players.Count; i++)
+        {
+            players.Add(tmpplayers[i]);
+            Debug.Log("Players number " + i + " is " + players[i]);
+        }
+
     }
 
 }
